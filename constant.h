@@ -7,5 +7,8 @@
 #define HEAD_JUMP 20
 #define JUMP 15
 #define GRAV 9.8
+#define RIGHT
+#define LEFT
+#define UP
 
 #endif
