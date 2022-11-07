@@ -1,2 +1,6 @@
 #include <stdio.h>
-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
+#include <SDL2/SDL.h>
+
+#include "objects.h"
+
+void move_player(struct player *player);
