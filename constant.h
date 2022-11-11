@@ -2,6 +2,7 @@
 #define CONSTANS_H
 
 #include "stdbool.h"
+#include "joyconlib.h"
 
 #define MAX_PLAYER 2
 #define HEAD_JUMP 20

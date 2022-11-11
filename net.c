@@ -43,3 +43,7 @@ int compare_addr(struct sockaddr_in *a, struct sockaddr_in *b) {
         return false;
     }
 }
+
+uint8_t key_state_from_player(struct Player *player) {
+
+}
