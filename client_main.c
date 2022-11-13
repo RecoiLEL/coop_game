@@ -1,4 +1,8 @@
-#include<SDL2/SDL.h>
+/*****************************************************************
+ファイル名	: client_main.c
+機能	: クライアントのメインルーチン
+*****************************************************************/
+#include"constant.h"
 
 int main(int argc,char *argv[])
 {
@@ -9,5 +13,38 @@ int main(int argc,char *argv[])
     char	*serverName;
     int		clientID;
     
+    /* 引数チェック */
+    if(argc == 1){
+    	serverName = localHostName;
+    }
+    else if(argc == 2){
+    	serverName = argv[1];
+    }
+    else{
+		fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
+		return -1;
+    }
+
+    /* サーバーとの接続 */
+    if(SetUpClient(serverName,&clientID,&num,name)==-1){
+		fprintf(stderr,"setup failed : SetUpClient\n");
+		return -1;
+	}
+    /* ウインドウの初期化 */
+	if(InitWindows(clientID,num,name)==-1){
+		fprintf(stderr,"setup failed : InitWindows\n");
+		return -1;
+	}
+
+    /* メインイベントループ */
+    while(endFlag){
+		WindowEvent(num);
+		endFlag = SendRecvManager();
+    };
+
+    /* 終了処理 */
+	DestroyWindow();
+	CloseSoc();
+
     return 0;
 }
