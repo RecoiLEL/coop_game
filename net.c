@@ -1,5 +1,4 @@
 #include "net.h"
-#include "obj.h"
 #include "constant.h"
 
 struct sockaddr_in server_sock_addr(char *ip){
@@ -47,6 +46,7 @@ int compare_addr(struct sockaddr_in *a, struct sockaddr_in *b) {
 
 uint8_t key_state_from_player(struct Player *player) {
     int8_t key_state = 0;
+
     if (player->left) {
         key_state = key_state | left_button;
     }
@@ -56,6 +56,7 @@ uint8_t key_state_from_player(struct Player *player) {
     if (player->jump) {
         key_state = key_state | up_button;
     }
+    
     return key_state;
 }
 
