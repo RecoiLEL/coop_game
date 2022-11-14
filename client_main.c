@@ -69,7 +69,7 @@ int main(int argc,char *argv[])
             /*
             for (int i = 0; i < gCharaNum; i++) {
                 UpdateCharaStatus(&(gChara[i]));
-                MoveChara(&(gChara[i]));
+                move_player(&(gChara[i]));
             }
             for (int i = 0; i < gCharaNum; i++) {
                 for (int j = i + 1; j < gCharaNum; j++)
