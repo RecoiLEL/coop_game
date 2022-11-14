@@ -30,7 +30,7 @@ int InitWindows(int clientID,int num,char name[])
 	}
 
 	/* メインのウインドウを作成する */
-	if((gMainWindow = SDL_CreateWindow("My Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 512, 0)) == NULL) {
+	if((gMainWindow = SDL_CreateWindow("My Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 500, 0)) == NULL) {
 		printf("failed to initialize videomode.\n");
 		return -1;
 	}
@@ -39,9 +39,20 @@ int InitWindows(int clientID,int num,char name[])
 	sprintf(title,"co-jump! %d",clientID);
 	SDL_SetWindowTitle(gMainWindow, title);
 
-	/* 背景を白にする */
+	/* 背景を黒にする */
 	SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 0, 255);
   	SDL_RenderClear(gMainRenderer);
 
     return 0;
+}
+
+/*****************************************************************
+関数名	: DestroyWindow
+機能: ウインドウを消す
+引数	: なし
+出力	: なし
+*****************************************************************/
+void DestroyWindow(void)
+{
+	SDL_Quit();
 }

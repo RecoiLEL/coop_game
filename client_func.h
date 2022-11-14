@@ -18,7 +18,6 @@ extern int SendRecvManager(void);
 /* client_window.c */
 extern int InitWindows(int clientID,int num,char name[]);
 extern void DestroyWindow(void);
-extern void WindowEvent(int num);
 
 /* client_command.c */
 extern int ExecuteCommand(char command);
