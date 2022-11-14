@@ -15,7 +15,7 @@ typedef struct {
     DIRECTION direction;
     MOVING moving;
     CHARACTER_STATUS status;
-} CHARACTER;
+} Player;
 
 typedef struct {
     int mapchip_id;
