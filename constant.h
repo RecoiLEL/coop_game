@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "stdbool.h"
-#include <joyconlib.h>
+#include "joyconlib.h"
 
 #define MAX_PLAYER 2
 #define HEAD_JUMP 20
