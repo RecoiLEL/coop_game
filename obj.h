@@ -12,7 +12,7 @@ typedef struct {
     int offset_y;
     int velocity_x;
     int velocity_y;
-    DIRECTION direction;
+    int left, right, jump;
     MOVING moving;
     CHARACTER_STATUS status;
 } Player;
