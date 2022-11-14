@@ -26,6 +26,4 @@ joycon_get_button_elapsed(&jc, &et);
     if(SDL_PollEvent(&e)){
         // イベント処理
     }
- 
-    // 描画処理
 }
