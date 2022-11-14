@@ -39,8 +39,8 @@ nt InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE])
 	sprintf(title,"co-jump! %d",clientID);
 	SDL_SetWindowTitle(gMainWindow, title);
 
-	/* 背景を白にする */
-	SDL_SetRenderDrawColor(gMainRenderer, 255, 255, 255, 255);
+	/* 背景を黒にする */
+	SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 0, 255);
   	SDL_RenderClear(gMainRenderer);
 
     return 0;
