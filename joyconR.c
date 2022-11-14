@@ -1,4 +1,4 @@
-#include constant.h
+#include "constant.h"
 
 joyconlib_t jc;
 joycon_open(&jc, JOYCON_R);   //Joy-Conのオープン
