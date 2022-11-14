@@ -3,6 +3,7 @@
 機能	: クライアントのメインルーチン
 *****************************************************************/
 #include"constant.h"
+#include"client_func.h"
 
 /* 関数 */
 static Uint32 AniTimer(Uint32 interval, void* param);
@@ -37,18 +38,47 @@ int main(int argc,char *argv[])
     /* ウインドウの初期化 */
 	if(InitWindows(clientID,num,name)==-1){
 		fprintf(stderr,"setup failed : InitWindows\n");
-		return -1;
+    goto DESTROYALL;
 	}
 
-    /* メインイベントループ */
-    while(endFlag){
-		WindowEvent(num);
-		endFlag = SendRecvManager();
-    };
+  /* スレッドセーフな整数変数を扱う 
+     * スレッドの生存確認(0以下でスレッドを終了させる)と
+     * 簡易フレームカウンタとして利用 */
+    SDL_atomic_t atm;
+    SDL_AtomicSet(&atm, 1);
+    /* スレッド */
+    SDL_Thread* thread = SDL_CreateThread(InputEvent, "InputEvent", &atm);
+    if (thread == NULL) {
+        fprintf(stderr,"setup failed : SDL_CreateThread\n");
+        goto DESTROYALL;
+    }
+    SDL_DetachThread(thread);
+    /* タイマー */
+    SDL_TimerID timer = SDL_AddTimer(100, AniTimer, &atm);
+    if (timer == 0) {
+        fprintf(stderr,"setup failed : SDL_AddTimer\n");
+        goto RELEASETHREAD;
+    }
 
-    /* 終了処理 */
+    /* メインイベントループ */
+    while(SDL_AtomicGet(&atm) > 0){
+		  WindowEvent(num);
+		  RenderWindow();
+
+      /* 少し待つ*/
+      SDL_Delay(10);
+      /* フレームカウント */
+      SDL_AtomicIncRef(&atm);
+    }
+
+  /* 終了処理 */
+  SDL_RemoveTimer(timer);
+RELEASETHREAD:
+    SDL_AtomicSet(&atm, -10);
+DESTROYALL:
 	DestroyWindow();
 	CloseSoc();
 
     return 0;
 }
+
