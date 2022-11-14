@@ -1,7 +1,8 @@
 #ifndef CONSTANS_H
 #define CONSTANS_H
 
-#include<stdio.h>
+#include <SDL2/SDL.h>
+#include <stdio.h>
 #include "stdbool.h"
 #include "joyconlib.h"
 
