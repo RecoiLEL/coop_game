@@ -3,7 +3,7 @@
 機能	: クライアントのメインルーチン
 *****************************************************************/
 #include"constant.h"
-#include"client_func.h"
+#include"obj.h"
 
 /* 関数 */
 static Uint32 AniTimer(Uint32 interval, void* param);

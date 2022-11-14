@@ -25,4 +25,7 @@ typedef struct {
     SDL_Texture *map_image;
 } MAPCHIP;
 
+/* phisics.c */
+extern int void move_player(Player *player) 
+
 #endif
