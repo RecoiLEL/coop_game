@@ -7,7 +7,7 @@
 int main(int argc,char *argv[])
 {
     int		num;
-    char	name[MAX_CLIENTS][MAX_NAME_SIZE];
+    char	name[MAX_PLAYER];
     int		endFlag=1;
     char	localHostName[]="localhost";
     char	*serverName;
