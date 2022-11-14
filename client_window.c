@@ -5,6 +5,7 @@
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include"constant.h"
+#include"client_func.h"
 
 static SDL_Window *gMainWindow;
 static SDL_Renderer *gMainRenderer;
