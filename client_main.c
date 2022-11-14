@@ -4,6 +4,10 @@
 *****************************************************************/
 #include"constant.h"
 
+/* 関数 */
+static Uint32 AniTimer(Uint32 interval, void* param);
+static int InputEvent(void* data);
+
 int main(int argc,char *argv[])
 {
     int		num;

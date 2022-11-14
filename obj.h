@@ -6,9 +6,10 @@
 struct Player {
     SDL_Rect position;
     SDL_Texture *texture;
-    int left, right, up, down;
+    int left, right, jump;
     int can_jump;
-    int left_key, right_key, up_key, down_key, attack_key;
+    int left_button, right_button, jump_button;
+    int dead, clear;
 };
 
 #endif
