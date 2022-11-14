@@ -4,10 +4,14 @@
 *****************************************************************/
 #include"constant.h"
 
+/* 関数 */
+static Uint32 AniTimer(Uint32 interval, void* param);
+static int InputEvent(void* data);
+
 int main(int argc,char *argv[])
 {
     int		num;
-    char	name[MAX_CLIENTS][MAX_NAME_SIZE];
+    char	name[MAX_PLAYER];
     int		endFlag=1;
     char	localHostName[]="localhost";
     char	*serverName;
