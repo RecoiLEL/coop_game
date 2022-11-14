@@ -63,6 +63,19 @@ int main(int argc,char *argv[])
     /* メインイベントループ */
     while(SDL_AtomicGet(&atm) > 0){
 		  WindowEvent(num);
+      /* 終了時は何もしない */
+        if (gGame.stts) {
+            SetInput();
+            /*
+            for (int i = 0; i < gCharaNum; i++) {
+                UpdateCharaStatus(&(gChara[i]));
+                MoveChara(&(gChara[i]));
+            }
+            for (int i = 0; i < gCharaNum; i++) {
+                for (int j = i + 1; j < gCharaNum; j++)
+                    Collision(&(gChara[i]), &(gChara[j]));
+            }*/
+        }
 		  RenderWindow();
 
       /* 少し待つ*/
@@ -82,3 +95,21 @@ DESTROYALL:
     return 0;
 }
 
+/* タイマー処理2(アニメーションの更新) */
+Uint32 AniTimer(Uint32 interval, void* param)
+{
+
+    /* 時間増分の更新 */
+    if (SDL_AtomicGet((SDL_atomic_t*)param) > 0) {
+        gGame.timeStep = 0.1 / SDL_AtomicGet((SDL_atomic_t*)param);
+        printf("FPS: %d\r", SDL_AtomicGet((SDL_atomic_t*)param) * 10);
+        SDL_AtomicSet((SDL_atomic_t*)param, 1);
+    }
+
+    /* 転送元範囲の更新(アニメーション) */
+    for (int i = 0; i < gCharaNum; i++) {
+        /* アニメーションパターンの更新 */
+        gChara[i].src.x = (gChara[i].src.x + gChara[i].src.w) % gChara[i].img->imgW;
+    }
+    return interval;
+}
