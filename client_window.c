@@ -16,7 +16,7 @@ static SDL_Renderer *gMainRenderer;
 引数	: int	clientID		: クライアント番号
 出力	: 正常に設定できたとき0、失敗したとき-1
 *****************************************************************/
-nt InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE])
+int InitWindows(int clientID,int num,char name[])
 {
     int i;
 	SDL_Texture *texture;
@@ -39,7 +39,7 @@ nt InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE])
 	sprintf(title,"co-jump! %d",clientID);
 	SDL_SetWindowTitle(gMainWindow, title);
 
-	/* 背景を黒にする */
+	/* 背景を白にする */
 	SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 0, 255);
   	SDL_RenderClear(gMainRenderer);
 
