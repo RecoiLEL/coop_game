@@ -1,3 +1,0 @@
-#include"ani.h"
-
-test
