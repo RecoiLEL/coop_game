@@ -26,7 +26,7 @@ static int MakeMessage(void);
 引数	: int	clientID		: クライアント番号
 出力	: 正常に設定できたとき0、失敗したとき-1
 *****************************************************************/
-int InitWindows(int clientID,int num,char name[])
+int InitWindows(int clientID)
 {
     int i;
 	SDL_Texture *texture;

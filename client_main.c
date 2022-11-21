@@ -40,7 +40,7 @@ int main(int argc,char *argv[])
 	}*/
 
     /* ウインドウの初期化 */
-	if(InitWindows(clientID,num,name)==-1){
+	if(InitWindows(clientID)==-1){
 		PrintError("setup failed : InitWindows\n");
     goto DESTROYALL;
 	}
@@ -100,7 +100,7 @@ Uint32 AniTimer(Uint32 interval, void* param)
     }
 
     /* 転送元範囲の更新(アニメーション) */
-    player_animation();
+    player_animation(gMainRenderer, );
     return interval;
 }
 
