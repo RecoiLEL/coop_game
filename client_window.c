@@ -16,6 +16,7 @@ static SDL_Renderer *gMainRenderer;
 
 /* 関数 */
 static void PlaceChara(void);
+static int AdjustXrange(int x);
 static int MakeMap(void);
 static int MakeMessage(void);
 

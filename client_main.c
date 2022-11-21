@@ -3,6 +3,7 @@
 機能	: クライアントのメインルーチン
 *****************************************************************/
 #include"constant.h"
+#include"client.h"
 #include"obj.h"
 
 /* 関数 */
@@ -19,6 +20,7 @@ int main(int argc,char *argv[])
     int		clientID;
     
     /* 引数チェック */
+    /* ここのコメントアウトはサーバー実装時に外す
     if(argc == 1){
     	serverName = localHostName;
     }
@@ -28,13 +30,15 @@ int main(int argc,char *argv[])
     else{
 		Printe("Usage: %s, Cannot find a Server Name.\n", argv[0]);
 		return -1;
-    }
+    }*/
 
     /* サーバーとの接続 */
+    /* ここのコメントアウトはサーバー実装時に外す
     if(SetUpClient(serverName,&clientID,&num,name)==-1){
 		PrintError("setup failed : SetUpClient\n");
 		return -1;
-	}
+	}*/
+
     /* ウインドウの初期化 */
 	if(InitWindows(clientID,num,name)==-1){
 		PrintError("setup failed : InitWindows\n");
@@ -84,7 +88,7 @@ DESTROYALL:
     return 0;
 }
 
-/* タイマー処理2(アニメーションの更新) */
+/* タイマー処理(アニメーションの更新) */
 Uint32 AniTimer(Uint32 interval, void* param)
 {
 
@@ -106,11 +110,11 @@ void SetInput(void)
     player.velocity.x = 0.0;
     if (gGame.input.left && !gGame.input.right) {
         player.dir        = CD_Left;
-        player.velocity.x = player.basevel.x;
+        player.velocity.x = 20.0;
     }
     if (gGame.input.right && !gGame.input.left) {
         player.dir        = CD_Right;
-        player.velocity.x = player.basevel.x;
+        player.velocity.x = 20.0;
     }
 }
 
@@ -118,7 +122,7 @@ void SetInput(void)
  * 引数
  *   str: エラーメッセージ
  * 返値: -1*/
-extern int PrintError(const char* str)
+int PrintError(const char* str)
 {
     fprintf(stderr, "%s\n", str);
     return -1;
