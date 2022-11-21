@@ -26,18 +26,18 @@ int main(int argc,char *argv[])
     	serverName = argv[1];
     }
     else{
-		fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
+		Printe("Usage: %s, Cannot find a Server Name.\n", argv[0]);
 		return -1;
     }
 
     /* サーバーとの接続 */
     if(SetUpClient(serverName,&clientID,&num,name)==-1){
-		fprintf(stderr,"setup failed : SetUpClient\n");
+		PrintError("setup failed : SetUpClient\n");
 		return -1;
 	}
     /* ウインドウの初期化 */
 	if(InitWindows(clientID,num,name)==-1){
-		fprintf(stderr,"setup failed : InitWindows\n");
+		PrintError("setup failed : InitWindows\n");
     goto DESTROYALL;
 	}
 
@@ -49,39 +49,28 @@ int main(int argc,char *argv[])
     /* スレッド */
     SDL_Thread* thread = SDL_CreateThread(InputEvent, "InputEvent", &atm);
     if (thread == NULL) {
-        fprintf(stderr,"setup failed : SDL_CreateThread\n");
+        PrintError("setup failed : SDL_CreateThread\n");
         goto DESTROYALL;
     }
     SDL_DetachThread(thread);
     /* タイマー */
     SDL_TimerID timer = SDL_AddTimer(100, AniTimer, &atm);
     if (timer == 0) {
-        fprintf(stderr,"setup failed : SDL_AddTimer\n");
+        PrintError("setup failed : SDL_AddTimer\n");
         goto RELEASETHREAD;
     }
 
     /* メインイベントループ */
     while(SDL_AtomicGet(&atm) > 0){
-		  WindowEvent(num);
-      /* 終了時は何もしない */
-        if (gGame.stts) {
-            SetInput();
-            /*
-            for (int i = 0; i < gCharaNum; i++) {
-                UpdateCharaStatus(&(gChara[i]));
-                move_player(&(gChara[i]));
-            }
-            for (int i = 0; i < gCharaNum; i++) {
-                for (int j = i + 1; j < gCharaNum; j++)
-                    Collision(&(gChara[i]), &(gChara[j]));
-            }*/
-        }
-		  RenderWindow();
+		WindowEvent(num);
+        SetInput();
+        player_update();
+		RenderWindow();
 
-      /* 少し待つ*/
-      SDL_Delay(10);
-      /* フレームカウント */
-      SDL_AtomicIncRef(&atm);
+        /* 少し待つ*/
+        SDL_Delay(10);
+        /* フレームカウント */
+        SDL_AtomicIncRef(&atm);
     }
 
   /* 終了処理 */
@@ -107,9 +96,30 @@ Uint32 AniTimer(Uint32 interval, void* param)
     }
 
     /* 転送元範囲の更新(アニメーション) */
-    for (int i = 0; i < gCharaNum; i++) {
-        /* アニメーションパターンの更新 */
-        gChara[i].src.x = (gChara[i].src.x + gChara[i].src.w) % gChara[i].img->imgW;
-    }
+    player_animation();
     return interval;
+}
+
+/* 入力状態から方向の設定 */
+void SetInput(void)
+{
+    player.velocity.x = 0.0;
+    if (gGame.input.left && !gGame.input.right) {
+        player.dir        = CD_Left;
+        player.velocity.x = player.basevel.x;
+    }
+    if (gGame.input.right && !gGame.input.left) {
+        player.dir        = CD_Right;
+        player.velocity.x = player.basevel.x;
+    }
+}
+
+/* エラーメッセージ表示
+ * 引数
+ *   str: エラーメッセージ
+ * 返値: -1*/
+extern int PrintError(const char* str)
+{
+    fprintf(stderr, "%s\n", str);
+    return -1;
 }
