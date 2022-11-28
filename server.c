@@ -30,7 +30,7 @@ void init_player_tab(){
 struct sockaddr_in receive_data(int sock, int16_t data[]){
     struct sockaddr_in addr;
     socklen_t addr_size = sizeof(struct sockaddr);
-    recvfrom(sock, data, sizeof(int16_t) * 4, 0, (struct sockaddr*)&addr, &addr_size);
+    recvfrom(sock, data, sizeof(int16_t) * 2, 0, (struct sockaddr*)&addr, &addr_size);
     return addr;
 }
 
@@ -43,11 +43,20 @@ void* server_recv_loop(void *arg){
     int socket = *((int*) arg);
     int client_pos = 0;
     struct sockaddr_in clients_addr;
-    int16_t window[2];
+    int16_t tab[4];
+    init_player_tab();
+    while(1){
+        client_addr = receive_data(socket, tab);
+        client_pos = addr_pos_in_tab(client_addr, clients_addr, num_of_connected_clients)
+    }
 
 }
 
 void* server_send_loop(void *arg){
     int socket = *((int*) arg);
 
+}
+
+int its_and_old_client(int client_pos){
+    return (client_pos < num_of_connected_clients && clinet_pos >= 0)
 }
