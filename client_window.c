@@ -2,10 +2,10 @@
 ファイル名	: client_window.c
 機能	: クライアントのユーザーインターフェース処理
 *****************************************************************/
-#include<SDL2/SDL_image.h>
-#include<SDL2/SDL2_gfxPrimitives.h>
-#include"constant.h"
-#include"client_func.h"
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
+#include "constant.h"
+#include "client_func.h"
 
 /* 画像ファイルパス */
 static char gMapImgFile[]          = "";

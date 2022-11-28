@@ -26,6 +26,6 @@ typedef struct {
 } MAPCHIP;
 
 /* phisics.c */
-extern int void move_player(Player *player) 
+extern int void move_player(Player *player);
 
 #endif

@@ -2,9 +2,9 @@
 ファイル名	: client_main.c
 機能	: クライアントのメインルーチン
 *****************************************************************/
-#include"constant.h"
-#include"client.h"
-#include"obj.h"
+#include "constant.h"
+#include "client.h"
+#include "obj.h"
 
 /* 関数 */
 static Uint32 AniTimer(Uint32 interval, void* param);
