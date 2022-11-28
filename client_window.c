@@ -2,17 +2,18 @@
 ファイル名	: client_window.c
 機能	: クライアントのユーザーインターフェース処理
 *****************************************************************/
-#include <SDL2/SDL_image.h>
+#include <stdio.h>
+#include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include "constant.h"
-#include "client_func.h"
+#include "client.h"
+#include "load.h"
+#include "ani.h"
 
-/* 画像ファイルパス */
-static char gMapImgFile[]          = "";
-static char gCharaImgFile[] = "";
-
-static SDL_Window *gMainWindow;
-static SDL_Renderer *gMainRenderer;
+static SDL_Window *window = NULL;
+static SDL_Renderer *renderer = NULL;
+SDL_Surface *surface = NULL;
+SDL_Texture *player_image = NULL;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -38,13 +39,13 @@ int InitWindows(int clientID)
 	}
 
 	/* メインのウインドウを作成する */
-	if((gMainWindow = SDL_CreateWindow("My Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0)) == NULL) {
+	if((window = SDL_CreateWindow("My Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0)) == NULL) {
 		printf("failed to initialize videomode.\n");
 		return -1;
 	}
 	/* 背景を黒にする */
-	SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 0, 255);
-  	SDL_RenderClear(gMainRenderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  	SDL_RenderClear(renderer);
 
     load_image(renderer, &player_image, "images/chara.png");
 
@@ -58,39 +59,9 @@ int InitWindows(int clientID)
     return 0;
 }
 
-/*****************************************************************
-関数名	: DestroyWindow
-機能: ウインドウを消す
-引数	: なし
-出力	: なし
-*****************************************************************/
 void DestroyWindow(void)
 {
 	SDL_Quit();
-}
-
-/*****************************************************************
-関数名	: PlaceChara
-機能: キャラの配置
-引数	: なし
-出力	: なし
-*****************************************************************/
-void PlaceChara(void)
-{
-    /* キャラのコピー */
-    int i;
-    for (i = 0; i < gCharaNum; i++) {
-        if (gChara[i].stts != CS_Disable) {
-            SDL_Rect dst = gChara[i].rect;
-            /* 表示画面の左端がgGame.rectMap.xなので
-               これを引くことで画面上の相対座標に変換 */
-            dst.x -= gGame.rectMap.x;
-            dst.x = AdjustXrange(dst.x);
-            if (0 > SDL_RenderCopy(gGame.render, gChara[i].img->image, &(gChara[i].src), &dst)) {
-                PrintError(SDL_GetError());
-            }
-        }
-    }
 }
 
 /*****************************************************************
@@ -144,10 +115,10 @@ int RenderWindow(void)
     }
 
     /* キャラ */
-    PlaceChara();
+    player_animation(renderer, player_image);
 
     /* 描画更新 */
-    SDL_RenderPresent(gGame.render);
+    SDL_RenderPresent(renderer);
 
     return ret;
 }
