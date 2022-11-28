@@ -6,4 +6,3 @@
 #include "obj.h"
 
 void move_player(struct player *player);
-SDL_Texture* get_map_texture(SDL_Renderer *renderer);
