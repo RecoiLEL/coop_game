@@ -5,13 +5,13 @@ joycon_open(&jc, JOYCON_R);   //Joy-Conのオープン
 
 joycon_get_state(&jc);  //Joy-Conの操作
 if(jc.button.btn.X){
-  player->right;    // 十字キー下が押されているとき
+  player->right;    // Xボタンが押されているとき
 }
 if(jc.button.btn.B){
-  player->left;    // 十字キー上が押されているとき
+  player->left;    // Bボタンが押されているとき
 }
 if(jc.button.btn.Y){
-  player->up;    // 十字キー右が押されているとき
+  player->up;    // Yボタンが押されているとき
 }
 
 joycon_close(&jc);  //Joy-Conのクローズ

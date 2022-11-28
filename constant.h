@@ -16,5 +16,9 @@
 #define L_RIGHT_BUTTON
 #define L_LEFT_BUTTON
 #define L_JUMP_BUTTON
+#define X_AXIS 1
+#define Y_AXIS 0
+#define GRAVITY 1
+#define PLAYER_SPEED 60
 
 #endif
