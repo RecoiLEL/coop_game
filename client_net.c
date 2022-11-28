@@ -1,3 +1,4 @@
+//based on udp
 #include "constant.h"
 #include "client_net.h"
 
@@ -11,5 +12,8 @@ void prepare_server(int *sock, struct sockaddr_in *client_addr){
 }
 
 void send_to_server(int sock, struct sockaddr_in serv_addr, int16_t id, int16_t keys){
-    
+    int16_t tab[2];
+    tab[0] = id;
+    tab[1] = keys;
+    socklen_t serv_addr_size
 }

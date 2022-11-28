@@ -28,6 +28,7 @@ typedef struct {
     DIRECTION direction;
     MOVING moving;
     CHARACTER_STATUS status;
+    SDL_Rect p_rect;
 } Player;
 
 typedef struct {
@@ -38,7 +39,8 @@ typedef struct {
     SDL_Texture *map_image;
 } MAPCHIP;
 
-/* ani.h */
+/* ani.c */
 extern int clac_offset(int, int, int *, int *);
+extern int player_animation(SDL_Renderer *, SDL_Texture *, int);
 
 #endif
