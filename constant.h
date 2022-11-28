@@ -28,6 +28,7 @@
 #define X_AXIS 1
 #define Y_AXIS 0
 #define PLAYER_SPEED 60
+#define MAX_VERTICAL_SPEED 15
  
 
 #endif
