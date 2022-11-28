@@ -1,9 +1,20 @@
 #ifndef OBJECTS_H
 #define OBJECTS_H
 
+#include <stdio.h>
 #include <SDL2/SDL.h>
 
 typedef enum {LEFT, RIGHT, JUMP} DIRECTION;
+typedef enum {FALSE, TRUE} MOVING;
+typedef enum {OFF, ON} STATE;
+
+/*0:静止(右)
+  1:移動(右)
+  2:踏まれ(右)
+  3:静止(左)
+  4:移動(左)
+  5:踏まれ(左)*/
+typedef struct {0, 1, 2, 3, 4, 5} CHARACTER_STATUS;
 
 typedef struct {
     int map_x;
@@ -17,6 +28,7 @@ typedef struct {
     DIRECTION direction;
     MOVING moving;
     CHARACTER_STATUS status;
+    SDL_Rect p_rect;
 } Player;
 
 typedef struct {

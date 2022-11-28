@@ -1,6 +1,7 @@
 #include "server.h"
 #include "net.h"
 #include "constant.h"
+#include "obj.h"
 #include <time.h>
 #include <sys/time.h>
 
@@ -18,6 +19,14 @@ void prepare_server(int *sock, struct sockaddr_in *server_sock){
     }
 }
 
+void init_player_tab(){
+    int i;
+    for(i=0;i<MAX_PLAYER;i++){
+        players_server[i].p_rect.w = PLAYER_WIDTH
+        players_server[i].p_rect.h = PLAYER_HEIGHT
+    }
+}
+
 struct sockaddr_in receive_data(int sock, int16_t data[]){
     struct sockaddr_in addr;
     socklen_t addr_size = sizeof(struct sockaddr);
@@ -28,4 +37,17 @@ struct sockaddr_in receive_data(int sock, int16_t data[]){
 void send_data(int sock, struct sockaddr_in client, int16_t data[], int size){
     socklen_t addr_size = sizeof(struct sockaddr);
     sendto(sock, data, sizeof(int16_t) * size, 0, (struct sockaddr*)&client, addr_size);
+}
+
+void* server_recv_loop(void *arg){
+    int socket = *((int*) arg);
+    int client_pos = 0;
+    struct sockaddr_in clients_addr;
+    int16_t window[2];
+
+}
+
+void* server_send_loop(void *arg){
+    int socket = *((int*) arg);
+
 }
