@@ -10,11 +10,11 @@
 #define HEAD_JUMP 20
 #define JUMP 15
 #define GRAV 9.8
-#define R_RIGHT_BUTTON
-#define R_LEFT_BUTTON
-#define R_JUMP_BUTTON
-#define L_RIGHT_BUTTON
-#define L_LEFT_BUTTON
-#define L_JUMP_BUTTON
+#define X// joy_r right
+#define B//joy_r left
+#define Y//joy_r jump
+#define Down//joy_l right
+#define Up//joy_l left
+#define Right//joy_l jump
 
 #endif
