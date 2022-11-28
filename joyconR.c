@@ -4,13 +4,13 @@ joyconlib_t jc;
 joycon_open(&jc, JOYCON_R);   //Joy-Conのオープン
 
 joycon_get_state(&jc);  //Joy-Conの操作
-if(jc.button.btn.DOWN){
+if(jc.button.btn.X){
   player->right;    // 十字キー下が押されているとき
 }
-if(jc.button.btn.UP){
+if(jc.button.btn.B){
   player->left;    // 十字キー上が押されているとき
 }
-if(jc.button.btn.RIGHT){
+if(jc.button.btn.Y){
   player->up;    // 十字キー右が押されているとき
 }
 
