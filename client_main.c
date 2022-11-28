@@ -6,7 +6,7 @@
 #include "client.h"
 #include "obj.h"
 
-Player player = {10, 10, 25, 41, 0, 0, 0, 0, RIGHT, FALSE, 0};
+Player player = {10, 10, 25, 41, 0, 0, 0, 0, RIGHT, 0};
 
 /* 関数 */
 static int InputEvent(void* data);
@@ -69,12 +69,11 @@ DESTROYALL:
 void SetInput(void)
 {
     player.velocity_x = 0.0;
-    if (gGame.input.left && !gGame.input.right) {
-        player.dirction   = LEFT;
+    if (player.dirction   == LEFT) {
         player.velocity_x = 20.0;
     }
-    if (gGame.input.right && !gGame.input.left) {
-        player.dirction   = RIGHT;
+    if (player.dirction  == RIGHT) {
+        ;
         player.velocity_x = 20.0;
     }
 }

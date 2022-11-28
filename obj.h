@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 
 typedef enum {LEFT, RIGHT, JUMP} DIRECTION;
-typedef enum {FALSE, TRUE} MOVING;
 typedef enum {OFF, ON} STATE;
 
 /*0:静止(右)
@@ -26,7 +25,6 @@ typedef struct {
     int velocity_x;
     int velocity_y;
     DIRECTION direction;
-    MOVING moving;
     CHARACTER_STATUS status;
     SDL_Rect p_rect;
 } Player;
