@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 
+typedef enum {LEFT, RIGHT, JUMP} DIRECTION;
+
 typedef struct {
     int map_x;
     int map_y;
@@ -12,7 +14,7 @@ typedef struct {
     int offset_y;
     int velocity_x;
     int velocity_y;
-    int left, right, jump;
+    DIRECTION direction;
     MOVING moving;
     CHARACTER_STATUS status;
 } Player;

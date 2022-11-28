@@ -14,18 +14,16 @@ static char gCharaImgFile[] = "";
 static SDL_Window *gMainWindow;
 static SDL_Renderer *gMainRenderer;
 
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
+
 /* 関数 */
 static void PlaceChara(void);
 static int AdjustXrange(int x);
 static int MakeMap(void);
 static int MakeMessage(void);
 
-/*****************************************************************
-関数名	: InitWindows
-機能: メインウインドウの表示、設定を行う
-引数	: int	clientID		: クライアント番号
-出力	: 正常に設定できたとき0、失敗したとき-1
-*****************************************************************/
+
 int InitWindows(int clientID)
 {
     int i;
@@ -40,13 +38,18 @@ int InitWindows(int clientID)
 	}
 
 	/* メインのウインドウを作成する */
-	if((gMainWindow = SDL_CreateWindow("My Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 500, 0)) == NULL) {
+	if((gMainWindow = SDL_CreateWindow("My Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0)) == NULL) {
 		printf("failed to initialize videomode.\n");
 		return -1;
 	}
 	/* 背景を黒にする */
 	SDL_SetRenderDrawColor(gMainRenderer, 0, 0, 0, 255);
   	SDL_RenderClear(gMainRenderer);
+
+    load_image(renderer, &player_image, "images/chara.png");
+
+    load_mapchip(renderer, mapchip, number_of_map_image);
+    load_map("data/field.map", map_array, &COL, &ROW, &OUT_OF_MAP);
 
 	/* マップの作成 */
     /*if (MakeMap())
