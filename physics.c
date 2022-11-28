@@ -1,6 +1,6 @@
 #include "physics.h"
 #include "constant.h"
-#include "obj.h"
+
 
 
 void move_player(struct Player *player) {
