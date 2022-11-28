@@ -6,6 +6,8 @@
 #include "client.h"
 #include "obj.h"
 
+Player player = {10, 10, 25, 41, 0, 0, 0, 0, RIGHT, FALSE, 0};
+
 /* 関数 */
 static int InputEvent(void* data);
 
@@ -56,8 +58,6 @@ int main(int argc,char *argv[])
     }
 
   /* 終了処理 */
-RELEASETHREAD:
-    SDL_AtomicSet(&atm, -10);
 DESTROYALL:
 	DestroyWindow();
 	CloseSoc();
