@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "constant.h"
 #include "obj.h"
 #include "client.h"
@@ -13,8 +14,9 @@
 
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-SDL_Surface *surface = NULL;
-SDL_Texture *player_image = NULL;
+static SDL_Surface *surface = NULL;
+static SDL_Texture *player_image = NULL;
+static TTF_Font *font = NULL;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -55,12 +57,22 @@ int InitWindows(int clientID)
 		return -1;
 	}
 
+    /* フォントの初期化 */
+    if ( TTF_Init() < 0 ) {
+        printf("TTF could not initialize! TTF_Error: %s\n", TTF_GetError());
+    }
+    
+    font = TTF_OpenFont("font/Pixeboy.ttf", 64);
+    if ( font == NULL ) {
+        printf("TTF_OpenFont: %s\n", TTF_GetError());
+    }
+
 	/* メインのウインドウを作成する */
 	if((window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0)) == NULL) {
 		printf("failed to initialize videomode.\n");
 		return -1;
 	}
-	/* 背景を黒にする */
+	/* 背景を一旦黒にする */
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   	SDL_RenderClear(renderer);
 
@@ -87,7 +99,6 @@ void DestroyWindow(void)
     }
 
     SDL_DestroyTexture(player_image);
-	SDL_Quit();
 }
 
 /*****************************************************************
