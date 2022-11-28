@@ -17,6 +17,7 @@ typedef struct {
     DIRECTION direction;
     MOVING moving;
     CHARACTER_STATUS status;
+    SDL_Rect p_rect;
 } Player;
 
 typedef struct {

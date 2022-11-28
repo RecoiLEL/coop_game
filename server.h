@@ -14,3 +14,5 @@
 void prepare_server(int *, struct sockaddr_in *);
 struct sockaddr_in receive_data(int sock, int16_t data[]);
 void send_data(int sock, struct sockaddr_in client, int16_t data[], int size);
+void* server_recv_loop(void *arg);
+void* server_send_loop(void *arg);

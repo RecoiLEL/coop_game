@@ -9,6 +9,8 @@
 #define MAX_PLAYER 2
 #define HEAD_JUMP 20
 #define JUMP 15
+#define PLAYER_HEIGHT 41
+#define PLAYER_WIDTH 25
 #define X// joy_r right
 #define B//joy_r left
 #define Y//joy_r jump
