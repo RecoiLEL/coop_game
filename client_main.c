@@ -68,14 +68,14 @@ DESTROYALL:
 /* 入力状態から方向の設定 */
 void SetInput(void)
 {
-    player.velocity.x = 0.0;
+    player.velocity_x = 0.0;
     if (gGame.input.left && !gGame.input.right) {
-        player.dir        = CD_Left;
-        player.velocity.x = 20.0;
+        player.dirction   = LEFT;
+        player.velocity_x = 20.0;
     }
     if (gGame.input.right && !gGame.input.left) {
-        player.dir        = CD_Right;
-        player.velocity.x = 20.0;
+        player.dirction   = RIGHT;
+        player.velocity_x = 20.0;
     }
 }
 
