@@ -7,7 +7,6 @@
 #include "obj.h"
 
 /* 関数 */
-static Uint32 AniTimer(Uint32 interval, void* param);
 static int InputEvent(void* data);
 
 int main(int argc,char *argv[])
@@ -45,27 +44,8 @@ int main(int argc,char *argv[])
     goto DESTROYALL;
 	}
 
-  /* スレッドセーフな整数変数を扱う 
-     * スレッドの生存確認(0以下でスレッドを終了させる)と
-     * 簡易フレームカウンタとして利用 */
-    SDL_atomic_t atm;
-    SDL_AtomicSet(&atm, 1);
-    /* スレッド */
-    SDL_Thread* thread = SDL_CreateThread(InputEvent, "InputEvent", &atm);
-    if (thread == NULL) {
-        PrintError("setup failed : SDL_CreateThread\n");
-        goto DESTROYALL;
-    }
-    SDL_DetachThread(thread);
-    /* タイマー */
-    SDL_TimerID timer = SDL_AddTimer(100, AniTimer, &atm);
-    if (timer == 0) {
-        PrintError("setup failed : SDL_AddTimer\n");
-        goto RELEASETHREAD;
-    }
-
     /* メインイベントループ */
-    while(SDL_AtomicGet(&atm) > 0){
+    while(1){
 		WindowEvent(num);
         SetInput();
         player_update();
@@ -73,12 +53,9 @@ int main(int argc,char *argv[])
 
         /* 少し待つ*/
         SDL_Delay(10);
-        /* フレームカウント */
-        SDL_AtomicIncRef(&atm);
     }
 
   /* 終了処理 */
-  SDL_RemoveTimer(timer);
 RELEASETHREAD:
     SDL_AtomicSet(&atm, -10);
 DESTROYALL:
@@ -86,22 +63,6 @@ DESTROYALL:
 	CloseSoc();
 
     return 0;
-}
-
-/* タイマー処理(アニメーションの更新) */
-Uint32 AniTimer(Uint32 interval, void* param)
-{
-
-    /* 時間増分の更新 */
-    if (SDL_AtomicGet((SDL_atomic_t*)param) > 0) {
-        gGame.timeStep = 0.1 / SDL_AtomicGet((SDL_atomic_t*)param);
-        printf("FPS: %d\r", SDL_AtomicGet((SDL_atomic_t*)param) * 10);
-        SDL_AtomicSet((SDL_atomic_t*)param, 1);
-    }
-
-    /* 転送元範囲の更新(アニメーション) */
-    player_animation(gMainRenderer, );
-    return interval;
 }
 
 /* 入力状態から方向の設定 */

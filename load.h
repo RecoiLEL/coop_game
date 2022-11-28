@@ -13,7 +13,7 @@ typedef struct {
     SDL_Texture *map_image;
 } MAPCHIP;
 
-int load_image(SDL_Renderer *, SDL_Texture **, char *);
-int load_mapchip(SDL_Renderer *, MAPCHIP *, int);
+extern int load_image(SDL_Renderer *, SDL_Texture **, char *);
+extern int load_mapchip(SDL_Renderer *, MAPCHIP *, int);
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <stdio.h>
+
 /* client_main.c */
 extern int PrintError(const char* str)
 

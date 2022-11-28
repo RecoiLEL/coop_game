@@ -4,6 +4,7 @@
 *****************************************************************/
 
 #include "obj.h"
+#include "ani.h"
 
 int frame      =  0;
 int animecycle = 24;
