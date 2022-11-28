@@ -32,6 +32,5 @@ extern int void move_player(Player *player);
 
 /* ani.h */
 extern int clac_offset(int, int, int *, int *);
-extern int player_animation(SDL_Renderer *, SDL_Texture *, int);
 
 #endif
