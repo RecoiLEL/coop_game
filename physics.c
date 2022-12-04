@@ -1,7 +1,39 @@
 #include "physics.h"
 #include "constant.h"
 
-int move_and_check_collisions(SDL_Rect *position, int axis, int mov)
+int sign(int a) {
+    if (a < 0) {
+        return -1;
+    } else if (a > 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+void decrement_abs(int *a) {
+    *a -= sign(*a);
+}
+
+
+int move_and_check_collisions(SDL_Rect *position, int axis, int mov) {
+    SDL_Rect temp = *position;
+
+    if (axis == X_AXIS) {
+        temp.x += sign(mov);
+    }
+
+    if (axis == Y_AXIS) {
+        temp.y += sign(mov);
+    }
+
+    if (check_collisions(&temp)) {
+        return 0;
+    } else {
+        *position = temp;
+        return 1;
+    }
+}
 
 void move_player(struct Player *player) {
     int x_move = 0;
@@ -48,3 +80,7 @@ void move_player(struct Player *player) {
         }
     }
 }
+
+
+
+
