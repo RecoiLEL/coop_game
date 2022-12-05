@@ -48,10 +48,18 @@ int main(int argc,char *argv[])
 
     /* メインイベントループ */
     while(1){
-		WindowEvent(num);
-        SetInput();
-        player_update();
+		SDL_Event e;
+        player_update(renderer, e, player_image);
 		RenderWindow();
+
+        if ( SDL_PollEvent(&e) ) {
+            if (e.type == SDL_QUIT){
+                break;
+            }
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE){
+                break;
+            }
+        }
 
         /* 少し待つ*/
         SDL_Delay(10);
