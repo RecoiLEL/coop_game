@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "stdbool.h"
 #include "joyconlib.h"
-#include "object.h"
+#include "obj.h"
 
 #define MAX_PLAYER 2
 #define HEAD_JUMP 20
