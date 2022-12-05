@@ -95,14 +95,14 @@ int player_move(SDL_Event e) {
                 player.velocity_y = -PLAYER_JUMP_POWER;
                 player.moving = TRUE;
             }
-        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){
+        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){    //右入力が押された場合
             player.direction = RIGHT;
             if (is_movable(player.map_x + 1, player.map_y) == TRUE) {
                 player.velocity_x = speed;
                 player.velocity_y = 0;
                 player.moving = TRUE;
             }
-        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
+        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){　　　//左入力が押された場合
             player.direction = LEFT;
             if (is_movable(player.map_x - 1, player.map_y) == TRUE) {
                 player.velocity_x = -speed;
@@ -116,7 +116,7 @@ int player_move(SDL_Event e) {
         }
     return 0;
 
-    //x,yの移動可能かの判定
+    //x,yの移動可能かどうかの判定
     int is_movable(int x, int y) {
 
     if ( x < 0 || x > COL - 1 || y  < 0 || y > ROW - 1) {

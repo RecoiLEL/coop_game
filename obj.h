@@ -24,7 +24,8 @@ typedef struct {
     int offset_y;
     int velocity_x;
     int velocity_y;
-    int face;
+    int ROW = ;
+　　int COL = ;
     DIRECTION direction;
     CHARACTER_STATUS status;
     SDL_Rect p_rect;
@@ -37,6 +38,7 @@ typedef struct {
     int movable;
     int change_locate;
     int player_move(SDL_Event);
+    int is_movable(int, int);
     SDL_Texture *map_image;
 } MAPCHIP;
 
