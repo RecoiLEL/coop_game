@@ -13,7 +13,7 @@
 #define PLAYER_HEIGHT 41
 #define PLAYER_WIDTH 25
 #define PLAYER_JUMP_POWER  15
-#define GRAVITY 9.8
+#define GRAVITY 10
 #define X// joy_r right
 #define B//joy_r left
 #define Y//joy_r jump

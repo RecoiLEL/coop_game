@@ -88,31 +88,30 @@ void move_player(struct Player *player) {
 
 int player_move(SDL_Event e) {
 
-        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){       //上入力が押された場合
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){       //上入力が押された場合(ジャンプ処理)
          player.direction = UP;
-            if (is_movable(player.map_x, player.map_y - 1) == TRUE) {
+            if ((is_movable(player.map_x, player.map_y - PLAYER_JUMP_POWER) == TRUE) && player.velocity_y == 0) {
                 player.velocity_x = 0;
-                player.velocity_y = -PLAYER_JUMP_POWER;
-                player.moving = TRUE;
-            }
+                player.velocity_y = -PLAYER_JUMP_POWER;　 //　初速度
+                player.map_y = player.map_y - PLAYER_JUMP_POWER;   //　フレーム毎に速度を加算
+                player.velocity_y = player.velocity_y + GRAVITY;    //　フレーム毎に加速度を速度に加算
+            if ((is_movable(player.map_x, player.map_y + GRAVITY)) != TRUE) {    //　落下地点に障害物があれば
+                player.velocity_x = 0;　　　　//　障害物に衝突したものとして速度を０に
+                player.velocity_y = 0;　　　　//　障害物に衝突したものとして速度を０に
         } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){    //右入力が押された場合
             player.direction = RIGHT;
-            if (is_movable(player.map_x + 1, player.map_y) == TRUE) {
-                player.velocity_x = speed;
+            if (is_movable(player.map_x + PLAYER_SPEED, player.map_y) == TRUE) {
+                player.velocity_x = PLAYER_SPEED;
                 player.velocity_y = 0;
                 player.moving = TRUE;
             }
         } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){　　　//左入力が押された場合
             player.direction = LEFT;
-            if (is_movable(player.map_x - 1, player.map_y) == TRUE) {
-                player.velocity_x = -speed;
+            if (is_movable(player.map_x - PLAYER_SPEED, player.map_y) == TRUE) {
+                player.velocity_x = -PLAYER_SPEED;
                 player.velocity_y = 0;
                 player.moving = TRUE;
             }
-
-    if (player->velocity_y < MAX_VERTICAL_SPEED) {
-        player->velocity_y += GRAVITY;
-    }
         }
     return 0;
 
