@@ -9,4 +9,6 @@
 #include <stdint.h>
 
 extern int server_set(int num);
-
+extern int recvint_data(int pos, int *intdata);
+extern void send_data(int pos,void *data,int datasize);
+extern int sendrecvmanager(void);

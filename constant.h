@@ -5,13 +5,10 @@
 #include <stdio.h>
 #include "stdbool.h"
 #include "joyconlib.h"
-<<<<<<< HEAD
 #include "obj.h"
 
-=======
 #include "object.h"
 //network
->>>>>>> 68c4358156ac115cc13384e5de6f5db78912dcf1
 #define MAX_PLAYER 2
 #define MAX_NAME_SIZE 10
 #define MAX_DATA 200

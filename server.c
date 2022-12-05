@@ -55,8 +55,29 @@ int server_set(int num){
 
     maxfd = multiaccept(request_sock,client_num);
     close(request_sock);
-    
+
     return 0;
+}
+
+int recv_intdata(int pos, int *intdata){
+  int n,tmp;
+
+  assert(0 < pos && pos < client_num);
+  assert(intdata != NULL);
+
+  n = recv_data(pos, &tmp, sizeof(int));
+  (*intdata) = ntohl(tmp);
+
+  return n;
+}
+
+void send_data(int pos, void *data, int datasize){
+  int i;
+
+  assert(0 < pos && pos < client_num || pos == ALL_CLIENTS);
+  assert(data != NULL);
+  assert(0 < datasize);
+  
 }
 
 static int multiaccept(int request_sock, int num){
@@ -75,6 +96,17 @@ static int multiaccept(int request_sock, int num){
   return fd;
 }
 
+static int recv_data(int pos, void *data, int datasize){
+  int n;
+
+  assert(0 < pos && pos < client_num);
+  assert(data != NULL);
+  assert(0 < datasize);
+
+  n = read()
+
+  return n;
+}
 /*
 todo
 server connection
