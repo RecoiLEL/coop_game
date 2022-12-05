@@ -1,5 +1,6 @@
 #include "physics.h"
 #include "constant.h"
+#include "obj.h"
 
 /*
 int sensor(int check) {
@@ -89,7 +90,7 @@ void move_player(struct Player *player) {
 int player_move(SDL_Event e) {
 
         if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){       //上入力が押された場合
-         player.direction = UP;
+         player.direction = JUMP;
             if (is_movable(player.map_x, player.map_y - 1) == TRUE) {
                 player.velocity_x = 0;
                 player.velocity_y = -PLAYER_JUMP_POWER;
