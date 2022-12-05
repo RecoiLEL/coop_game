@@ -29,9 +29,8 @@ const int GRID_SIZE = 41;
 const char* WINDOW_TITLE = "co-jump";
 
 /* 関数 */
-static void PlaceChara(void);
-static int AdjustXrange(int x);
 static int MakeMap(void);
+static int move_map(SDL_Renderer *renderer, SDL_Texture *player_image);
 static int MakeMessage(void);
 
 
@@ -101,6 +100,86 @@ void DestroyWindow(void)
     SDL_DestroyTexture(player_image);
 }
 
+int player_update(SDL_Renderer *renderer, SDL_Event e, SDL_Texture *player_image) {
+
+    if (player.moving == TRUE) {
+        player.pixel_x = player.pixel_x + player.velocity_x;
+        player.pixel_y = player.pixel_y + player.velocity_y;
+
+        if (player.pixel_x % GRID_SIZE == 0 && player.pixel_y % GRID_SIZE == 0){
+            player.moving = FALSE;
+            player.map_x = player.pixel_x / GRID_SIZE;
+            player.map_y = player.pixel_y / GRID_SIZE;
+            move_map(renderer,player_image);
+            player_move(e);
+        }
+
+    } else {
+        player_move(e);
+    }
+
+}
+
+int move_map(SDL_Renderer *renderer, SDL_Texture *player_image) {
+    char event_path[256] = {0};
+
+    sprintf(event_path, "data/%s.evt", MAP_EVENT_NAME);
+
+    FILE *fp;
+    char event[256] = {0};
+    int event_point_x;
+    int event_point_y;
+    DIRECTION direction_of_penetration;
+    char buf[256] = {0};
+    char new_map_name[256] = {0};
+    char map_path[256] = {0};
+    int new_x;
+    int new_y;
+    int i = 0;
+    int current_loc = 0;
+
+    fp = fopen(event_path, "r");
+    if (fp == NULL) {
+        printf("file open error. %d\n", __LINE__);
+        return 1;
+    }
+
+    for(i = 0;fgets(buf, sizeof(buf), fp) != NULL;i++) {
+
+        if (strncmp(buf, "#", 1) != 0){
+            if (strncmp(buf, "MOVE", 4) == 0) {
+                sscanf(buf,
+                   "%[^,],%d,%d,%u,%[^,],%d,%d",
+                       event, &event_point_x, &event_point_y, &direction_of_penetration, new_map_name, &new_x, &new_y);
+
+                if (player.map_x == event_point_x && player.map_y == event_point_y) {
+                    if (player.direction == direction_of_penetration) {
+
+                        sprintf(MAP_EVENT_NAME, "%s", new_map_name);
+
+                        sprintf(map_path, "%s.map", new_map_name);
+                        load_map(map_path, map_array, &COL, &ROW, &OUT_OF_MAP);
+
+                        player.map_x = new_x;
+                        player.map_y = new_y;
+                        player.pixel_x = player.map_x * GRID_SIZE;
+                        player.pixel_y = player.map_y * GRID_SIZE;
+
+                        fade_out(renderer, player_image);
+                        limit_move++;
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    fclose(fp);
+
+    return 0;
+}
+
 /*****************************************************************
 関数名	: RenderWindow
 機能: ウインドウの更新
@@ -111,7 +190,7 @@ int RenderWindow(void)
 {
     SDL_RenderClear(renderer);
 
-    /* マップ */
+    /* マップ描画 */
     int x, y;
     int start_x = player.offset_x / GRID_SIZE - 1;
     int end_x = start_x + SCREEN_WIDTH / GRID_SIZE + 2;
