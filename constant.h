@@ -6,14 +6,18 @@
 #include "stdbool.h"
 #include "joyconlib.h"
 #include "object.h"
-
+//network
 #define MAX_PLAYER 2
+#define MAX_NAME_SIZE 10
+#define MAX_DATA 200
+#define PORT (u_short)1234
+//phys
 #define HEAD_JUMP 20
 #define JUMP 15
 #define PLAYER_HEIGHT 41
 #define PLAYER_WIDTH 25
 #define PLAYER_JUMP_POWER  15
-#define GRAVITY 9.8
+#define GRAVITY 10
 #define X// joy_r right
 #define B//joy_r left
 #define Y//joy_r jump

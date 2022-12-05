@@ -5,58 +5,79 @@
 #include <time.h>
 #include <sys/time.h>
 
-struct sockaddr_in clients_addr[MAX_PLAYER]
-struct Player players_server[MAX_PLAYER]
-int num_of_connected_clients = 0;
+typedef struct{
+	int		fd;
+	char	name[MAX_NAME_SIZE];
+}CLIENT;
 
-void prepare_server(int *sock, struct sockaddr_in *server_sock){
-    memset(clients_addr, 0, sizeof(struct sockaddr_in) * MAX_PLAYERS);
-    if ((*sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
-        perror("socket failed");
+static CLIENT clients[MAX_CLIENTS];
+int client_num;
+
+static fd_set mask;
+static int width;
+
+static int recv_data(int pos, void *data, int datasize);
+static int multiaccept(int request_sock, int num);
+
+int server_set(int num){
+    struct sockaddr_in server;
+    int request_sock;
+    int maxfd;
+    int val = 1;
+
+    assert(0 < num && num <= MAX_CLIENTS)//check argument through assert func
+
+    client_num = num;
+    bzero((char*)&server,sizeof(server));
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = htonl(INADDR_ANY);
+    server.sin_port = htons(PORT)
+
+    if((request_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+        fprintf(stderr,"Socket allocation failed\n");
+        return -1;
     }
-    if (bind(*sock, (struct sockaddr*) server_sock, sizeof(struct sockaddr)) < 0) {
-        perror("bind server error");
+    setsockopt(request_sock, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
+
+    if(bind(request_sock, (struct sockaddr*)&server, sizeof(server)) == -1){
+		fprintf(stderr,"Cannot bind\n");
+		close(request_sock);
+		return -1;
     }
-}
+    fprintf(stderr,"Successfully bind!\n");
 
-void init_player_tab(){
-    int i;
-    for(i=0;i<MAX_PLAYER;i++){
-        players_server[i].p_rect.w = PLAYER_WIDTH
-        players_server[i].p_rect.h = PLAYER_HEIGHT
+    if(listen(request_sock, client_num) == -1){
+		fprintf(stderr,"Cannot listen\n");
+		close(request_sock);
+		return -1;
     }
+    fprintf(stderr,"Listen OK\n");
+
+    maxfd = multiaccept(request_sock,client_num);
+    close(request_sock);
+    
+    return 0;
 }
 
-struct sockaddr_in receive_data(int sock, int16_t data[]){
-    struct sockaddr_in addr;
-    socklen_t addr_size = sizeof(struct sockaddr);
-    recvfrom(sock, data, sizeof(int16_t) * 2, 0, (struct sockaddr*)&addr, &addr_size);
-    return addr;
-}
+static int multiaccept(int request_sock, int num){
+  int i,j;
+  int fd;
 
-void send_data(int sock, struct sockaddr_in client, int16_t data[], int size){
-    socklen_t addr_size = sizeof(struct sockaddr);
-    sendto(sock, data, sizeof(int16_t) * size, 0, (struct sockaddr*)&client, addr_size);
-}
-
-void* server_recv_loop(void *arg){
-    int socket = *((int*) arg);
-    int client_pos = 0;
-    struct sockaddr_in clients_addr;
-    int16_t tab[4];
-    init_player_tab();
-    while(1){
-        client_addr = receive_data(socket, tab);
-        client_pos = addr_pos_in_tab(client_addr, clients_addr, num_of_connected_clients)
+  for(i = 0; i < num; i++){
+    if((fd = accept(request_sock, NULL, NULL)) == -1){
+      fprintf(stderr,"Accept error\n");
+      for(j = i - 1; j >= 0; j--)
+      close(clients[j].fd);
+      return -1;
     }
-
+    Enter(i,fd);
+  }
+  return fd;
 }
 
-void* server_send_loop(void *arg){
-    int socket = *((int*) arg);
-
-}
-
-int its_and_old_client(int client_pos){
-    return (client_pos < num_of_connected_clients && clinet_pos >= 0)
-}
+/*
+todo
+server connection
+server data recv send
+need move and send move data
+*/
