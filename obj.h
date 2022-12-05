@@ -40,8 +40,18 @@ typedef struct {
     SDL_Texture *map_image;
 } MAPCHIP;
 
+/* client_main.c */
+extern int PrintError(const char* str);
+
 /* client_window.c */
-extern int player_update(SDL_Renderer *renderer, SDL_Event e, SDL_Texture *player_image)
+extern int InitWindows(int clientID);
+extern int RenderWindow(void);
+extern int player_update(SDL_Renderer *renderer, SDL_Event e, SDL_Texture *player_image);
+extern void DestroyWindow(void);
+
+/* physics.c */
+extern int player_move(SDL_Event e);
+
 
 /* ani.c */
 extern int clac_offset(int, int, int *, int *);
