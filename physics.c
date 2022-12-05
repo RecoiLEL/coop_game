@@ -1,36 +1,39 @@
 #include "physics.h"
 #include "constant.h"
 
-int sign(int a) {
-    if (a < 0) {
+/*
+int sensor(int check) {
+    if (check < 0) {
         return -1;
-    } else if (a > 0) {
+    } else if (check > 0) {
         return 1;
     } else {
         return 0;
     }
 }
 
-void decrement_abs(int *a) {
-    *a -= sign(*a);
+void decrement_abs(int *check)
+{
+    *check -= sensor(*check);
 }
 
+int check_collisions(SDL_Rect *rect) 
 
 int move_and_check_collisions(SDL_Rect *position, int axis, int mov) {
-    SDL_Rect temp = *position;
+    SDL_Rect posi = *position;
 
     if (axis == X_AXIS) {
-        temp.x += sign(mov);
+        posi.x += sign(mov);
     }
 
     if (axis == Y_AXIS) {
-        temp.y += sign(mov);
+        posi.y += sign(mov);
     }
 
-    if (check_collisions(&temp)) {
+    if (check_collisions(&posi)) {
         return 0;
     } else {
-        *position = temp;
+        *position = posi;
         return 1;
     }
 }
@@ -38,15 +41,15 @@ int move_and_check_collisions(SDL_Rect *position, int axis, int mov) {
 void move_player(struct Player *player) {
     int x_move = 0;
     int y_move = 0;
-    if (player->left) {     //左入力が押された場合
+    if (player->LEFT) {     //左入力が押された場合
         velocity_y-= PLAYER_SPEED;     //左の速度を60にする
         player->head = -1;
     }
-    if (player->right) {        //右入力が押された場合
+    if (player->RIGHT) {        //右入力が押された場合
         velocity_x += PLAYER_SPEED;     //右の速度を60にする
         player->head = 1;
     }
-    if (player->up) {       //上入力が押された場合
+    if (player->UP) {       //上入力が押された場合
         if (player->can_jump) {     //
             player->can_jump = false;
             player->velocity_y = -PLAYER_JUMP_POWER;
@@ -81,6 +84,54 @@ void move_player(struct Player *player) {
     }
 }
 
+*/
 
+int player_move(SDL_Event e) {
 
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){       //上入力が押された場合
+         player.direction = UP;
+            if (is_movable(player.map_x, player.map_y - 1) == TRUE) {
+                player.velocity_x = 0;
+                player.velocity_y = -PLAYER_JUMP_POWER;
+                player.moving = TRUE;
+            }
+        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){
+            player.direction = RIGHT;
+            if (is_movable(player.map_x + 1, player.map_y) == TRUE) {
+                player.velocity_x = speed;
+                player.velocity_y = 0;
+                player.moving = TRUE;
+            }
+        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
+            player.direction = LEFT;
+            if (is_movable(player.map_x - 1, player.map_y) == TRUE) {
+                player.velocity_x = -speed;
+                player.velocity_y = 0;
+                player.moving = TRUE;
+            }
 
+    if (player->velocity_y < MAX_VERTICAL_SPEED) {
+        player->velocity_y += GRAVITY;
+    }
+        }
+    return 0;
+
+    //x,yの移動可能かの判定
+    int is_movable(int x, int y) {
+
+    if ( x < 0 || x > COL - 1 || y  < 0 || y > ROW - 1) {
+        return 2;
+    }
+
+    if (mapchip[map_array[y*COL+x]].movable == 1) {
+        return 2;
+    }
+
+    if (player.map_x == x && player.map_y == y) {
+        return 1;
+    }
+
+    return TRUE;
+}
+
+}
