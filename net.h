@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <objects.h>
 #include "joyconlib.h"
 
 struct sockaddr_in server_sock_addr();

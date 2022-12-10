@@ -7,9 +7,8 @@
 #include "joyconlib.h"
 #include "obj.h"
 
-#include "object.h"
 //network
-#define MAX_PLAYER 2
+#define MAX_CLIENTS 2
 #define MAX_NAME_SIZE 10
 #define MAX_DATA 200
 #define PORT (u_short)1234

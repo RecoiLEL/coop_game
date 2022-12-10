@@ -59,6 +59,27 @@ int server_set(int num){
     return 0;
 }
 
+int SendRecvManager(void){
+    char	command;
+    fd_set	readOK;
+    int		i;
+    int		endFlag = 1;
+
+    readOK = mask;
+    if(select(width,&readOK,NULL,NULL,NULL) < 0){
+        return endFlag;
+    }
+
+    for(i=0;i<client_num;i++){
+		if(FD_ISSET(clients[i].fd,&readOK)){
+			recv_data(i,&command,sizeof(char));
+	    	endFlag = ExecuteCommand(command,i);
+	    	if(endFlag == 0)break;
+		}
+    }
+    return endFlag;
+}
+
 int recv_intdata(int pos, int *intdata){
   int n,tmp;
 
@@ -80,6 +101,8 @@ void send_data(int pos, void *data, int datasize){
   
 }
 
+/*static from here*/
+
 static int multiaccept(int request_sock, int num){
   int i,j;
   int fd;
@@ -94,6 +117,15 @@ static int multiaccept(int request_sock, int num){
     Enter(i,fd);
   }
   return fd;
+}
+
+static void set_mask(int maxfd){
+    int	i;
+
+    width = maxfd+1;
+
+    FD_ZERO(&mask);
+    for(i=0;i<client_num;i++)FD_SET(clients[i].fd,&mask);
 }
 
 static int recv_data(int pos, void *data, int datasize){
