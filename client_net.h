@@ -1,24 +1,33 @@
 #ifndef CLIENT_UDP_H
 #define CLIENT_UDP_H
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <signal.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <arpa/inet.h>
-#include <stdint.h>
+#include <netdb.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <assert.h>
+#include <math.h>
 
-#define SERVER_PORT 1234
+#define PORT (u_short) 1234
+#define END_COMMAND	'E'
+#define MAX_NAME_SIZE 10
+#define MAX_CLIENTS 2
+#define MAX_DATA 200
 
-void prepare_client(int *, struct sockaddr_in *);
-void send_to_server(int , struct sockaddr_in , int16_t , int16_t);
-int client_listen(int , int16_t *);
+extern int send_flag;
 
+extern int client_setup(char* hostname,int *clientID,int *num,char clientname[][MAX_NAME_SIZE]);
+extern void closesock(void);
+extern int Crecv_intdata(int *intdata);
+extern void Csend_data(void *data,int datasize);
+extern int CSendRecvManager(void);
+
+/*command*/
+extern int ExecuteCommand(char command);
+extern void SendEndCommand(void);
+extern void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 
 #endif

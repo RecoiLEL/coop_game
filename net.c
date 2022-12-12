@@ -1,5 +1,4 @@
 #include "net.h"
-#include "constant.h"
 #include <SDL2/SDL.h>
 
 #define ALL_CLIENTS -1

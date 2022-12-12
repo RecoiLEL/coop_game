@@ -1,6 +1,5 @@
 #include "server.h"
 #include "net.h"
-#include "constant.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -190,9 +189,3 @@ static int recv_data(int pos, void *data, int datasize){
 
   return n;
 }
-/*
-todo
-server connection
-server data recv send
-need move and send move data
-*/
