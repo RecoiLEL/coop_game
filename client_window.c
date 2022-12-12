@@ -35,8 +35,7 @@ static int MakeMap(void);
 static int MakeMessage(void);
 
 
-int ROW = 15;
-int COL = 20;
+
 int OUT_OF_MAP = 0;
 
 MAPCHIP mapchip[256] = {0};
