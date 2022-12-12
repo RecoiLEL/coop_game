@@ -18,6 +18,7 @@ extern int server_set(int num);
 extern int SendRecvManager(void);
 extern int recv_intdata(int pos, int *intdata);
 extern void send_data(int pos, void *data, int datasize);
+extern void ending(void);
 //phys
 #define HEAD_JUMP 20
 #define JUMP 15
