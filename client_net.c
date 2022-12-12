@@ -1,4 +1,3 @@
-//based on udp
 #include "constant.h"
 #include "client_net.h"
 

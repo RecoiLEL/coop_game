@@ -18,6 +18,7 @@ static int width;
 
 static int recv_data(int pos, void *data, int datasize);
 static int multiaccept(int request_sock, int num);
+static void Enter(int pos, int fd);
 
 int server_set(int num){
     struct sockaddr_in server;
@@ -117,6 +118,10 @@ static int multiaccept(int request_sock, int num){
     Enter(i,fd);
   }
   return fd;
+}
+
+static void Enter(int pos, int fd){
+  
 }
 
 static void set_mask(int maxfd){
