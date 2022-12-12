@@ -3,7 +3,6 @@
 機能	: クライアントのメインルーチン
 *****************************************************************/
 #include "constant.h"
-#include "client.h"
 #include "obj.h"
 
 Player player = {10, 10, 25, 41, 0, 0, 0, 0, RIGHT, 0};
