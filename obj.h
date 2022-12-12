@@ -15,6 +15,14 @@ typedef enum {OFF, ON} STATE;
   5:踏まれ(左)*/
 typedef struct {0, 1, 2, 3, 4, 5} CHARACTER_STATUS;
 
+typedef enum {
+    MS_Nothing = 0,
+    MS_Floor   = 1,
+    MS_WallR   = 2,
+    MS_WallL   = 3,
+    MS_Roof    = 4,
+} MapStts;
+
 typedef struct {
     int map_x;
     int map_y;

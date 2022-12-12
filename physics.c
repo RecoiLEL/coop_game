@@ -1,6 +1,17 @@
 #include "physics.h"
 #include "constant.h"
 
+
+/*経過時間*/
+double t               =  0;
+/*キャラクタ,マップの状態変数*/
+int    charastts       =  0;
+int    mapstts         =  0;
+int    movemapstts     = 30;
+/*キャラクタの初期座標*/
+double chpos_Initial_x =  8;
+double chpos_Initial_y = 38;
+
 /*
 int sensor(int check) {
     if (check < 0) {
@@ -114,7 +125,57 @@ int player_move(SDL_Event e) {
             }
         }
     return 0;
+    
+    
+    
+      /*衝突判定*/
+	    switch(Collision(player.map_x, player.map_y, movemapstts)){
 
+		    /*床*/
+		    case MS_Floor:
+			    if(DIRECTION == JUMP){
+				    chpos_Initial_x += (player.velocity_x*t)       / MAP_ChipSize;
+				    chpos_Initial_y -= (player.velocity_y*t - t*t) / MAP_ChipSize;
+				    CHARACTER_STATUS = 0;
+			    }
+			    break;
+
+                    /*壁(右)*/
+		    case MS_WallR:
+		            if(DIRECTION == JUMP && player.velocity_x >= 0){
+				    chpos_Initial_x += (player.velocity_x*t)       / MAP_ChipSize;
+				    chpos_Initial_y -= (player.velocity_y*t - t*t) / MAP_ChipSize;
+				    player.velocity_x            = -player.velocity_x          / 2;
+				    player.velocity_y            = player.velocity_y           / 5;
+				    t = 0;
+			    }
+			    break;
+
+	            /*壁(左)*/
+		    case MS_WallL:
+                            if(DIRECTION == JUMP && player.velocity_x <= 0){
+                                    chpos_Initial_x += (player.velocity_x*t)       / MAP_ChipSize;
+                                    chpos_Initial_y -= (player.velocity_y*t - t*t) / MAP_ChipSize;
+                                    player.velocity_x            = -player.velocity_x          / 2;
+                                    player.velocity_y            = player.velocity_y           / 5;
+                                    t = 0;
+                            }
+                            break;
+
+		    /*天井*/	    
+		    case MS_Roof:
+			    if(DIRECTION == JUMP && player.velocity_y >= 0){
+				    chpos_Initial_x += player.velocity_x*t         / MAP_ChipSize;
+                                    chpos_Initial_y -= (player.velocity_y*t - t*t) / MAP_ChipSize;
+				    player.velocity_y            = -player.velocity_y/2;
+				    t = 0;
+				    
+			    }
+			    break;
+
+	    }
+
+/*
     //x,yの移動可能かどうかの判定
     int is_movable(int x, int y) {
 
@@ -134,3 +195,4 @@ int player_move(SDL_Event e) {
 }
 
 }
+*/
