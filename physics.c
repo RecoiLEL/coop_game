@@ -1,56 +1,46 @@
 #include "physics.h"
 #include "constant.h"
+#include <stdlib.h>
 
-/*
-//経過時間
-double tx              =  0;
-double ty              =  0;
-//キャラクタ,マップの状態変数
-int    charastts       =  0;
-int    mapstts         =  0;
-int    movemapstts     = 30;
-//キャラクタの初期座標
-double chpos_Initial_x =  8;
-double chpos_Initial_y = 38;
-//ループ変数(0で終了)
-int start_flg = 1;
-int event_flg = 1;
-int goal_flg  = 0;
-*/
+int map_array[65536] = {0};
+MAPCHIP mapchip[256] = {0};
+
+
 
 
 int player_move(SDL_Event e) {
-
-        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){       //上入力が押された場合(ジャンプ処理)
-         DIRECTION = JUMP;
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP) {	//上入力が押された場合(ジャンプ処理)
+            player.direction = JUMP;
             if ((is_movable(player.map_x, player.map_y - PLAYER_JUMP_POWER) == TRUE) && player.velocity_y == 0) {
                 player.velocity_x = 0;
-                player.velocity_y = -PLAYER_JUMP_POWER;　 //　初速度
-                player.map_y = player.map_y - PLAYER_JUMP_POWER;   //　フレーム毎に速度を加算
-                player.velocity_y = player.velocity_y + GRAVITY;    //　フレーム毎に加速度を速度に加算
-            if ((is_movable(player.map_x, player.map_y + GRAVITY)) != TRUE) {    //　落下地点に障害物があれば
-                player.velocity_x = 0;　　　　//　障害物に衝突したものとして速度を０に
-                player.velocity_y = 0;　　　　//　障害物に衝突したものとして速度を０に
-           }
-        } 
-      }
-        else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){    //右入力が押された場合
-            DIRECTION = RIGHT;
+                player.velocity_y = -PLAYER_JUMP_POWER;	//初速度
+                player.map_y = player.map_y - PLAYER_JUMP_POWER;	//フレーム毎に速度を加算
+                player.velocity_y = player.velocity_y + GRAVITY;	//フレーム毎に加速度を速度に加算
+            }
+                if ((is_movable(player.map_x, player.map_y + GRAVITY)) != TRUE) {	//落下地点に障害物があれば
+                player.velocity_x = 0;	//障害物に衝突したものとして速度を０に
+                player.velocity_y = 0;	//障害物に衝突したものとして速度を０に
+                } 
+        }
+        else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){		//右入力が押された場合
+            player.direction = RIGHT;
             if (is_movable(player.map_x + PLAYER_SPEED, player.map_y) == TRUE) {
                 player.velocity_x = PLAYER_SPEED;
                 player.velocity_y = 0;
                 player.moving = TRUE;
             }
-        } else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){　　　//左入力が押された場合
-            DIRECTION = LEFT;
+        } 
+        else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){		//左入力が押された場合
+            player.direction = LEFT;
             if (is_movable(player.map_x - PLAYER_SPEED, player.map_y) == TRUE) {
                 player.velocity_x = -PLAYER_SPEED;
                 player.velocity_y = 0;
                 player.moving = TRUE;
             }
         }
-      }
-    return 0;
+        return 0;
+}
+    
    
     
     
@@ -107,8 +97,8 @@ int player_move(SDL_Event e) {
 	    */
 
 
-    //x,yの移動可能かどうかの判定
-    int is_movable(int x, int y) {
+//x,yの移動可能かどうかの判定
+int is_movable(int x, int y) {
 
     if ( x < 0 || x > COL - 1 || y  < 0 || y > ROW - 1) {
         return 2;
@@ -125,7 +115,7 @@ int player_move(SDL_Event e) {
     return TRUE;
 }
 
-}
+
 
 
 
@@ -169,7 +159,4 @@ int player_move(SDL_Event e) {
 	    ch_y = chpos_Initial_y * MAP_ChipSize- movemapstts*MAP_ChipSize - vel_y*ty + ty*ty;
 	    
 */
-	    
-	    
-	    
 	    

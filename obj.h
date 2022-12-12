@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 
 typedef enum {LEFT, RIGHT, JUMP} DIRECTION;
+typedef enum {FALSE, TRUE} MOVING;
 typedef enum {OFF, ON} STATE;
 
 /*0:静止(右)
