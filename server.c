@@ -1,9 +1,10 @@
 #include "server.h"
 #include "net.h"
 #include "constant.h"
-#include "obj.h"
-#include <time.h>
-#include <sys/time.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <assert.h>
 
 typedef struct{
 	int		fd;
@@ -18,6 +19,7 @@ static int width;
 
 static int recv_data(int pos, void *data, int datasize);
 static int multiaccept(int request_sock, int num);
+static void set_mask(maxfd);
 static void Enter(int pos, int fd);
 
 int server_set(int num){
@@ -26,13 +28,13 @@ int server_set(int num){
     int maxfd;
     int val = 1;
 
-    assert(0 < num && num <= MAX_CLIENTS)//check argument through assert func
+    assert(0 < num && num <= MAX_CLIENTS); //check argument through assert func
 
     client_num = num;
     bzero((char*)&server,sizeof(server));
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port = htons(PORT)
+    server.sin_port = htons(PORT);
 
     if((request_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
         fprintf(stderr,"Socket allocation failed\n");
@@ -96,6 +98,35 @@ int recv_intdata(int pos, int *intdata){
   return n;
 }
 
+int ExecuteCommand(char command,int pos)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize,intData;
+    int			endFlag = 1;
+    int n; int res;
+    static int sent_num = 0;
+    static int pattern[MAX_CLIENTS];
+
+    assert(0<=pos && pos<MAX_CLIENTS);
+
+#ifndef NDEBUG
+    printf("#####\n");
+    printf("ExecuteCommand()\n");
+    printf("Get command %c\n",command);
+#endif
+
+switch(command){
+  case END_COMMAND:
+	dataSize = 0;
+	send_data(ALL_CLIENTS,data,dataSize);
+	endFlag = 0;
+	break;
+     default:
+	fprintf(stderr,"0x%02x is not command!\n",command); 
+    }
+    return endFlag;
+}
+
 void send_data(int pos, void *data, int datasize){
   int i;
 
@@ -142,7 +173,7 @@ static void Enter(int pos, int fd){
 static void set_mask(int maxfd){
     int	i;
 
-    width = maxfd+1;
+    width = maxfd + 1;
 
     FD_ZERO(&mask);
     for(i=0;i<client_num;i++)FD_SET(clients[i].fd,&mask);
@@ -155,7 +186,7 @@ static int recv_data(int pos, void *data, int datasize){
   assert(data != NULL);
   assert(0 < datasize);
 
-  n = read()
+  n = read(clients[pos].fd,data,datasize);
 
   return n;
 }

@@ -7,18 +7,6 @@
 #include "joyconlib.h"
 #include "obj.h"
 
-//network
-#define MAX_CLIENTS 2
-#define MAX_NAME_SIZE 10
-#define MAX_DATA 200
-#define PORT (u_short)1234
-#define ALL_CLIENTS -1
-extern int client_num;
-extern int server_set(int num);
-extern int SendRecvManager(void);
-extern int recv_intdata(int pos, int *intdata);
-extern void send_data(int pos, void *data, int datasize);
-extern void ending(void);
 //phys
 #define HEAD_JUMP 20
 #define JUMP 15

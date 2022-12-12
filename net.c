@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 
     if(server_set(num) == -1){
         fprintf(stderr, "Cannot setup server\n");
-        exit(-1)
+        exit(-1);
     }
 
     while(endFlag){

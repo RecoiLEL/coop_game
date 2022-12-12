@@ -33,7 +33,7 @@ typedef struct {
     int velocity_x;
     int velocity_y;
     int ROW = ;
-　　int COL = ;
+    int COL = ;
     DIRECTION direction;
     CHARACTER_STATUS status;
     SDL_Rect p_rect;
