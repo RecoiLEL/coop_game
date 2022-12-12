@@ -56,6 +56,9 @@ int server_set(int num){
 
     maxfd = multiaccept(request_sock,client_num);
     close(request_sock);
+    if(maxfd == -1) return -1;
+
+    set_mask(maxfd);
 
     return 0;
 }
@@ -102,6 +105,14 @@ void send_data(int pos, void *data, int datasize){
   
 }
 
+void Ending(void){
+  int i;
+
+  printf("server closed\n");
+  for(i = 0; i < client_num; i++)
+  close(clients[i].fd);
+}
+
 /*static from here*/
 
 static int multiaccept(int request_sock, int num){
@@ -121,7 +132,11 @@ static int multiaccept(int request_sock, int num){
 }
 
 static void Enter(int pos, int fd){
-  
+  read(fd,clients[pos].name,MAX_NAME_SIZE);
+  #ifndef NDEBUG
+  printf("%s connected\n",clients[pos].name);
+  #endif
+  clients[pos].fd = fd;
 }
 
 static void set_mask(int maxfd){
