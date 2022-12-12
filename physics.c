@@ -1,25 +1,28 @@
 #include "physics.h"
 #include "constant.h"
 
-
-/*経過時間*/
+/*
+//経過時間
 double tx              =  0;
 double ty              =  0;
-/*キャラクタ,マップの状態変数*/
+//キャラクタ,マップの状態変数
 int    charastts       =  0;
 int    mapstts         =  0;
 int    movemapstts     = 30;
-/*キャラクタの初期座標*/
+//キャラクタの初期座標
 double chpos_Initial_x =  8;
 double chpos_Initial_y = 38;
+//ループ変数(0で終了)
+int start_flg = 1;
+int event_flg = 1;
+int goal_flg  = 0;
+*/
 
 
-/*
 int player_move(SDL_Event e) {
 
         if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){       //上入力が押された場合(ジャンプ処理)
          DIRECTION = JUMP;
-         t = 0.1;
             if ((is_movable(player.map_x, player.map_y - PLAYER_JUMP_POWER) == TRUE) && player.velocity_y == 0) {
                 player.velocity_x = 0;
                 player.velocity_y = -PLAYER_JUMP_POWER;　 //　初速度
@@ -48,15 +51,15 @@ int player_move(SDL_Event e) {
         }
       }
     return 0;
-   */
+   
     
     
-    
-      /*衝突判定*/
+  /*
+      //衝突判定
 	    switch(Collision(player.map_x, player.map_y, movemapstts)){
              
-		    /*床*/
-		    /*
+		    //床
+		    
 		    case MS_Floor:
 			    if(DIRECTION == JUMP){
 				    chpos_Initial_x += (player.velocity_x*t)       / MAP_ChipSize;
@@ -64,9 +67,9 @@ int player_move(SDL_Event e) {
 				    CHARACTER_STATUS = 0;
 			    }
 			    break;
-			    */
+			    
 
-                    /*壁(右)*/
+                    //壁(右)
 		    case MS_WallR:
 		            if(DIRECTION == JUMP && player.velocity_x >= 0){
 				    chpos_Initial_x += (player.velocity_x*t)       / MAP_ChipSize;
@@ -77,7 +80,7 @@ int player_move(SDL_Event e) {
 			    }
 			    break;
 
-	            /*壁(左)*/
+	            //壁(左)
 		    case MS_WallL:
                             if(DIRECTION == JUMP && player.velocity_x <= 0){
                                     chpos_Initial_x += (player.velocity_x*t)       / MAP_ChipSize;
@@ -88,7 +91,7 @@ int player_move(SDL_Event e) {
                             }
                             break;
 
-		    /*天井*/	    
+		    //天井	    
 		    case MS_Roof:
 			    if(DIRECTION == JUMP && player.velocity_y >= 0){
 				    chpos_Initial_x += player.velocity_x*t         / MAP_ChipSize;
@@ -100,8 +103,10 @@ int player_move(SDL_Event e) {
 			    break;
 
 	    }
+	    
+	    */
 
-/*
+
     //x,yの移動可能かどうかの判定
     int is_movable(int x, int y) {
 
@@ -121,4 +126,50 @@ int player_move(SDL_Event e) {
 }
 
 }
+
+
+
+
+
+
+
+
+/*
+
+//杉本君のものを参考に作成
+
+ イベントループ 
+    while(event_flg) {
+
+	    //ジャンプ中以外
+	    if (charastts == CS_Normal_R || charastts == CS_Normal_L){
+		    tx = 0;
+		    if(ty > 0){
+                            ty += 0.1;
+                    }
+	    }
+
+	    else if(charastts == CS_Walk_L || charastts == CS_Walk_R){
+		    tx = 0.1;
+		    chpos_Initial_x += vel_x*tx / MAP_ChipSize;
+		    if(ty > 0){
+			    ty += 0.3;
+		    }
+	    }
+
+	    //ジャンプ中
+	    else if(charastts == CS_Jump){
+		    ty += 0.3;
+		    chpos_Initial_x += vel_x*t / MAP_ChipSize;
+		    chpos_Initial_y -= (vel_y*t - t*t) / MAP_ChipSize;
+	    }
+
+	    //移動後のキャラクタ座標を格納
+	    ch_x = chpos_Initial_x * MAP_ChipSize + vel_x*tx;
+	    ch_y = chpos_Initial_y * MAP_ChipSize- movemapstts*MAP_ChipSize - vel_y*ty + ty*ty;
+	    
 */
+	    
+	    
+	    
+	    
