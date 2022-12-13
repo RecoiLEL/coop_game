@@ -1,9 +1,9 @@
 #include "server.h"
 #include "net.h"
-#include "constant.h"
-#include "obj.h"
-#include <time.h>
-#include <sys/time.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <assert.h>
 
 typedef struct{
 	int		fd;
@@ -18,6 +18,8 @@ static int width;
 
 static int recv_data(int pos, void *data, int datasize);
 static int multiaccept(int request_sock, int num);
+static void set_mask(maxfd);
+static void Enter(int pos, int fd);
 
 int server_set(int num){
     struct sockaddr_in server;
@@ -26,12 +28,12 @@ int server_set(int num){
     int val = 1;
     client_num = num;
 
-    assert(0 < num && num <= MAX_CLIENTS)//check argument through assert func
+    assert(0 < num && num <= MAX_CLIENTS); //check argument through assert func
 
     bzero((char*)&server,sizeof(server));
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port = htons(PORT)
+    server.sin_port = htons(PORT);
 
     if((request_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
         fprintf(stderr,"Socket allocation failed\n");
@@ -55,6 +57,9 @@ int server_set(int num){
 
     maxfd = multiaccept(request_sock,client_num);
     close(request_sock);
+    if(maxfd == -1) return -1;
+
+    set_mask(maxfd);
 
     return 0;
 }
@@ -92,6 +97,35 @@ int recv_intdata(int pos, int *intdata){
   return n;
 }
 
+int ExecuteCommand(char command,int pos)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize,intData;
+    int			endFlag = 1;
+    int n; int res;
+    static int sent_num = 0;
+    static int pattern[MAX_CLIENTS];
+
+    assert(0<=pos && pos<MAX_CLIENTS);
+
+#ifndef NDEBUG
+    printf("#####\n");
+    printf("ExecuteCommand()\n");
+    printf("Get command %c\n",command);
+#endif
+
+switch(command){
+  case END_COMMAND:
+	dataSize = 0;
+	send_data(ALL_CLIENTS,data,dataSize);
+	endFlag = 0;
+	break;
+     default:
+	fprintf(stderr,"0x%02x is not command!\n",command); 
+    }
+    return endFlag;
+}
+
 void send_data(int pos, void *data, int datasize){
   int i;
 
@@ -99,6 +133,14 @@ void send_data(int pos, void *data, int datasize){
   assert(data != NULL);
   assert(0 < datasize);
   
+}
+
+void Ending(void){
+  int i;
+
+  printf("server closed\n");
+  for(i = 0; i < client_num; i++)
+  close(clients[i].fd);
 }
 
 /*static from here*/
@@ -119,10 +161,18 @@ static int multiaccept(int request_sock, int num){
   return fd;
 }
 
+static void Enter(int pos, int fd){
+  read(fd,clients[pos].name,MAX_NAME_SIZE);
+  #ifndef NDEBUG
+  printf("%s connected\n",clients[pos].name);
+  #endif
+  clients[pos].fd = fd;
+}
+
 static void set_mask(int maxfd){
     int	i;
 
-    width = maxfd+1;
+    width = maxfd + 1;
 
     FD_ZERO(&mask);
     for(i=0;i<client_num;i++)FD_SET(clients[i].fd,&mask);
@@ -135,11 +185,7 @@ static int recv_data(int pos, void *data, int datasize){
   assert(data != NULL);
   assert(0 < datasize);
 
-  n = read()
+  n = read(clients[pos].fd,data,datasize);
 
   return n;
 }
-/*
-todo
-need move and send move data
-*/

@@ -1,5 +1,5 @@
-#ifndef CONSTANS_H
-#define CONSTANS_H
+#ifndef CONSTANT_H
+#define CONSTANT_H
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -7,11 +7,6 @@
 #include "joyconlib.h"
 #include "obj.h"
 
-//network
-#define MAX_CLIENTS 2
-#define MAX_NAME_SIZE 10
-#define MAX_DATA 200
-#define PORT (u_short)1234
 //phys
 #define HEAD_JUMP 20
 #define JUMP 15
