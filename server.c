@@ -24,10 +24,10 @@ int server_set(int num){
     int request_sock;
     int maxfd;
     int val = 1;
+    client_num = num;
 
     assert(0 < num && num <= MAX_CLIENTS)//check argument through assert func
 
-    client_num = num;
     bzero((char*)&server,sizeof(server));
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -141,7 +141,5 @@ static int recv_data(int pos, void *data, int datasize){
 }
 /*
 todo
-server connection
-server data recv send
 need move and send move data
 */
