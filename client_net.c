@@ -1,10 +1,5 @@
 #include "client_net.h"
 
-<<<<<<< HEAD
-void prepare_server(int *sock, struct sockaddr_in *client_addr){
-    if((*sock) = socket(AF_INET,SOCK_STREAM,0) < 0){
-        perror("client socket failled");
-=======
 #define BUF_SIZE 100
 
 static int sock;
@@ -23,7 +18,6 @@ int client_setup(char* hostname,int *clientID,int *num,char clientname[][MAX_NAM
     if((servhost = gethostbyname(hostname)) == NULL){
         fprintf(stderr, "Unknown host\n");
         return -1;
->>>>>>> 8ee87c739dc551370f5f709842ff38b0321d52c2
     }
 
     bzero((char*)&server, sizeof(server));

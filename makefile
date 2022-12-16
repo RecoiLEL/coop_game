@@ -7,12 +7,12 @@ CFLAGS	=	-c -DNDEBUG
 .c.o:
 	gcc $(CFLAGS) $<
 
-all: $(TARGET1) $(TARGET2)
+all: $(TARGET1) #$(TARGET2)
 
 $(TARGET1):	$(OBJS1)
 	gcc -o $(TARGET1) $(OBJS1) -lm -lSDL2
-$(TARGET2):	$(OBJS2)
-	gcc -o $(TARGET2) $(OBJS2) -lm -lSDL2 
+# $(TARGET2):	$(OBJS2)
+# 	gcc -o $(TARGET2) $(OBJS2) -lm -lSDL2 
 
 
 clean:

@@ -18,7 +18,7 @@ static int width;
 
 static int recv_data(int pos, void *data, int datasize);
 static int multiaccept(int request_sock, int num);
-static void set_mask(maxfd);
+static void set_mask(int maxfd);
 static void Enter(int pos, int fd);
 
 int server_set(int num){
@@ -28,7 +28,7 @@ int server_set(int num){
     int val = 1;
     client_num = num;
 
-    assert(0 < num && num <= MAX_CLIENTS); //check argument through assert func
+assert(0 < num && num <= MAX_CLIENTS);
 
     bzero((char*)&server,sizeof(server));
     server.sin_family = AF_INET;
@@ -108,12 +108,6 @@ int ExecuteCommand(char command,int pos)
 
     assert(0<=pos && pos<MAX_CLIENTS);
 
-#ifndef NDEBUG
-    printf("#####\n");
-    printf("ExecuteCommand()\n");
-    printf("Get command %c\n",command);
-#endif
-
 switch(command){
   case END_COMMAND:
 	dataSize = 0;
@@ -132,6 +126,15 @@ void send_data(int pos, void *data, int datasize){
   assert(0 < pos && pos < client_num || pos == ALL_CLIENTS);
   assert(data != NULL);
   assert(0 < datasize);
+
+  if(pos == ALL_CLIENTS){
+		for(i=0;i<client_num;i++){
+			write(clients[i].fd,data,datasize);
+		}
+    }
+    else{
+		write(clients[pos].fd,data,datasize);
+    }
   
 }
 
